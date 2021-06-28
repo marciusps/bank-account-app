@@ -7,14 +7,28 @@ abstract class Account(
     val ownersName: String,
     val oppeningDate: Date,
     val password: Int,
-    val accountBalance: Float
+    var accountBalance: Long
 ) {
 
-    fun deposit(insertedMoney: Float) {
+    fun deposit(insertedMoney: Long) {
         accountBalance+= insertedMoney
     }
 
-    fun withdraw(insertedMoney: Float) {
+    fun withdraw(insertedMoney: Long) {
+        if(accountBalance - insertedMoney >= 0 ){
+            accountBalance-= insertedMoney
+        }else{
+            throw Exception("It is not possible to withdraw this amount.")
+        }
+    }
 
+    fun login (user: String, password: Int): Boolean{
+        Accounts.accountsList.forEach() {
+            val nomeFormatado = it.ownersName.lowercase().replace(" ", "_")
+            if (ownersName == nomeFormatado && (password == it.password)
+            )
+                return true
+        }
+        return false
     }
 }
