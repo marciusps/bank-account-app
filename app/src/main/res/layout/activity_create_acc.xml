@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp"
-    tools:context=".model.MainActivity">
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.CreateAccActivity">
 
     <LinearLayout
         android:id="@+id/ll_main_layout"
@@ -15,30 +15,58 @@
         android:orientation="vertical"
         android:padding="25dp">
 
-
         <EditText
             android:id="@+id/et_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="nome_de_usuário"
+            android:hint="user name"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textColorHint="#B1B1B1" />
-
         <EditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="senha"
-            android:inputType="text"
+            android:hint="password"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHint="#B1B1B1" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <RadioButton
+                android:id="@+id/radio_current_acc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Account"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radio_savings_acc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Savings Account"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/et_acc_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:hint="account ballance"
+            android:inputType="number"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textColorHint="#B1B1B1" />
 
         <FrameLayout
-            android:id="@+id/btn_create_acc"
+            android:id="@+id/btn_submit_new_acc"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -52,44 +80,12 @@
                 android:layout_gravity="center"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="8dp"
-                android:text="create account"
+                android:text="submit"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/btn_login"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/buttom_background_selector"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="8dp"
-                android:text="Login"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center|end"
-                android:indeterminate="true"
-                android:indeterminateDrawable="@drawable/progress_bg"
-                android:progress="0"
-                android:visibility="invisible"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp" />
-        </FrameLayout>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,34 +1,19 @@
 package com.example.bank_account_app.model
 
+import java.text.SimpleDateFormat
 import java.util.*
 
-abstract class Account(
-    val accountNumber: Int,
-    val ownersName: String,
-    val oppeningDate: Date,
-    val password: Int,
-    var accountBalance: Long
-) {
+abstract class Account (
+    val accountID: Int, var ownersName: String, var password: String, var oppeningDate: String,
+    var accountBalance: Long){
 
-    fun deposit(insertedMoney: Long) {
-        accountBalance+= insertedMoney
-    }
+    abstract fun deposit(insertedMoney: Long)
 
-    fun withdraw(insertedMoney: Long) {
-        if(accountBalance - insertedMoney >= 0 ){
-            accountBalance-= insertedMoney
-        }else{
-            throw Exception("It is not possible to withdraw this amount.")
-        }
-    }
+    abstract fun withdraw(insertedMoney: Long)
 
-    fun login (user: String, password: Int): Boolean{
-        Accounts.accountsList.forEach() {
-            val nomeFormatado = it.ownersName.lowercase().replace(" ", "_")
-            if (ownersName == nomeFormatado && (password == it.password)
-            )
-                return true
-        }
-        return false
+
+    override fun toString(): String {
+        return "Account(accountID= $accountID, ownersName= '$ownersName', password= '$password', " +
+                "oppeningDate= $oppeningDate, accountBalance= R$${accountBalance / 100})"
     }
 }
