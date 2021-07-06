@@ -11,15 +11,15 @@
         android:theme="@style/Theme.Bankaccountapp"
         android:name=".utils.MainApplication">
 
-        <activity android:name=".model.MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".model.activities.HomeActivity"/>
-        <activity android:name=".activities.CreateAccActivity"/>
-        <activity android:name=".activities.BankTransitionActivity"/>
+        <activity android:name=".model.activities.HomeFragment"/>
+        <activity android:name=".activities.CreateAccFragment"/>
+        <activity android:name=".activities.BankTransitionFragment"/>
     </application>
 
 </manifest>

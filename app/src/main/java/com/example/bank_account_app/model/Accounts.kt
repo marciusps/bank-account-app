@@ -1,16 +1,12 @@
 package com.example.bank_account_app.model
 
-import com.example.bank_account_app.utils.MainApplication
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 object Accounts {
-    var idSesion: Int = 0
+    //var idSesion: Int = 0
     var accountsList: ArrayList<Account> = ArrayList()
     var idCounter: Int = 1
 
@@ -18,40 +14,40 @@ object Accounts {
         idCounter = accountsList.size
     }
 
-    fun updatedID(): Int{
+    fun updatedID(): Int {
         var newID: Int = -1
-        accountsList.forEach{
-            if(it.accountID > newID)
+        accountsList.forEach {
+            if (it.accountID > newID)
                 newID = it.accountID
         }
-        return newID+1
+        return newID + 1
     }
 
-    fun accountLogout() {
-        idSesion = 0
-        writeSession()
-    }
+//    fun accountLogout() {
+//        idSesion = 0
+//        writeSession()
+//    }
 
-    fun readSession(): Int {
-        val bufferedReader =
-            BufferedReader(FileReader(MainApplication.applicationContext().cacheDir.absolutePath + "/session.csv"))
-        val row = bufferedReader.readLine()
-        if (row!=null){
-            return row.toInt()
-        } else
-            writeSession()
-            return 0
-    }
+//    fun readSession(): Int {
+//        val bufferedReader =
+//            BufferedReader(FileReader(MainApplication.applicationContext().cacheDir.absolutePath + "/session.csv"))
+//        val row = bufferedReader.readLine()
+//        if (row!=null){
+//            return row.toInt()
+//        } else
+//            writeSession()
+//            return 0
+//    }
 
-    fun writeSession() {
-        File(MainApplication.applicationContext().cacheDir.absolutePath + "/session.csv").bufferedWriter()
-            .use { out ->
-                out.write(Accounts.idSesion.toString())
-            }
-    }
+//    fun writeSession() {
+//        File(MainApplication.applicationContext().cacheDir.absolutePath + "/session.csv").bufferedWriter()
+//            .use { out ->
+//                out.write(Accounts.idSesion.toString())
+//            }
+//    }
 
     fun accountValidator(name: String, password: String): Account? {
-        Accounts.accountsList.forEach() {
+        accountsList.forEach() {
             if (name == it.ownersName && password == it.password) {
                 return it
             }
@@ -59,7 +55,7 @@ object Accounts {
         return null
     }
 
-    fun findUser(idRow: ArrayList<String>): Account?{
+    fun findUser(idRow: ArrayList<String>): Account? {
         accountsList.forEach {
             if (idRow[0].toInt() == it.accountID)
                 return it
@@ -78,18 +74,17 @@ object Accounts {
         return messageDigest.fold("", { str, it -> str + "%02x".format(it) })
     }
 
-    fun coinToMoney(coin: Long): Float{
-        return coin/100f
+    fun coinToMoney(coin: Long): Float {
+        return coin / 100f
     }
 
-    fun existingAccount(name: String, accountType: String): Boolean{
-            accountsList.forEach{
-                if(name == it.ownersName && it is CurrentAccount && accountType == "Current Account")
-                    return true
-                else
-                    if(name == it.ownersName && it is SavingsAccount && accountType == "Savings Account")
-                        return true
-            }
+    fun existingAccount(name: String, current: Boolean): Boolean {
+        accountsList.forEach {
+            if (name == it.ownersName && name.length == it.ownersName.length && it is CurrentAccount && current == true)
+                return true
+            if (name == it.ownersName && name.length == it.ownersName.length && it is SavingsAccount && current == false)
+                return true
+        }
         return false
     }
 }

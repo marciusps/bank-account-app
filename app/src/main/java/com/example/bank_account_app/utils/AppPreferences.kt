@@ -12,26 +12,26 @@ object SharedPreferencesLogin {
         return context.getSharedPreferences(context.getString(R.string.key), Context.MODE_PRIVATE)
     }
 
-    fun saveLogin(context: Context, account: Account?) {
-        val sharedLogin = getSharedLogin(context) ?: return
+    fun saveLogin(account: Account?) {
+        val sharedLogin = getSharedLogin(MainApplication.applicationContext()) ?: return
         with(sharedLogin.edit()) {
             clear()
             putString("key", account?.accountID.toString())
             putString("password", account?.password)
             apply()
-            Toast.makeText(context, "Saved login.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(MainApplication.applicationContext(), "Saved login.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    fun getLogin(context: Context): ArrayList<String> {
-        val sharedLogin = getSharedLogin(context) ?: return arrayListOf()
+    fun getLogin(): ArrayList<String> {
+        val sharedLogin = getSharedLogin(MainApplication.applicationContext()) ?: return arrayListOf()
         return arrayListOf(
             (sharedLogin.getString("key", "")).toString(),
             (sharedLogin.getString("password", "")).toString()
         )
     }
 
-    fun logout(context: Context) {
-        getSharedLogin(context)!!.edit().clear().apply()
+    fun logout() {
+        getSharedLogin(MainApplication.applicationContext())!!.edit().clear().apply()
     }
 }

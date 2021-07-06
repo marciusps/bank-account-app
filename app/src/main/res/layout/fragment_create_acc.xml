@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.CreateAccActivity">
+    tools:context=".activities.CreateAccFragment">
 
     <LinearLayout
         android:id="@+id/ll_main_layout"
@@ -44,14 +44,12 @@
                 android:id="@+id/radio_current_acc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Current Account"
-                android:onClick="onRadioButtonClicked"/>
+                android:text="Current Account" />
             <RadioButton
                 android:id="@+id/radio_savings_acc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Savings Account"
-                android:onClick="onRadioButtonClicked"/>
+                android:text="Savings Account" />
         </RadioGroup>
 
         <EditText

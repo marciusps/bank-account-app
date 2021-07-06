@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">bank-account-app</string>
+    <string name="current_acc">current_acc</string>
+    <string name="savings_acc">savings_acc</string>
 
 
 

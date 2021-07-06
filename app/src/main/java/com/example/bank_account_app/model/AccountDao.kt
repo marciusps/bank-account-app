@@ -1,6 +1,7 @@
 package com.example.bank_account_app.model
 
 import android.content.Context
+import com.example.bank_account_app.R
 import com.example.bank_account_app.utils.MainApplication.Companion.applicationContext
 import java.io.*
 
@@ -14,7 +15,7 @@ object AccountDao {
             var row: List<String>
             while (bufferedReader.ready()) {
                 row = bufferedReader.readLine().split(";")
-                if (row[5] == "current_ac") {
+                if (row[5] == applicationContext().getString(R.string.current_acc)) {
                     //accountID, ownersName, password, oppeningDate, accountBalance
                     Accounts.accountsList.add(
                         CurrentAccount(
@@ -45,9 +46,9 @@ object AccountDao {
             .use { out ->
                 Accounts.accountsList.forEach {
                     if (it is CurrentAccount) {
-                        out.write("${it.accountID};${it.ownersName};${it.password};${it.oppeningDate};${it.accountBalance};current_acc\n")
+                        out.write("${it.accountID};${it.ownersName};${it.password};${it.oppeningDate};${it.accountBalance};${applicationContext().getString(R.string.current_acc)}\n")
                     } else
-                        out.write("${it.accountID};${it.ownersName};${it.password};${it.oppeningDate};${it.accountBalance};savings_acc\n")
+                        out.write("${it.accountID};${it.ownersName};${it.password};${it.oppeningDate};${it.accountBalance};${applicationContext().getString(R.string.savings_acc)}\n")
                 }
             }
     }
@@ -56,9 +57,9 @@ object AccountDao {
         FileOutputStream(applicationContext().cacheDir.absolutePath + "/accounts.csv", true).bufferedWriter()
             .use { out ->
                 if (account is CurrentAccount)
-                    out.append("${account.accountID};${account.ownersName};${account.password};${account.oppeningDate};${account.accountBalance};current_acc\n")
+                    out.append("${account.accountID};${account.ownersName};${account.password};${account.oppeningDate};${account.accountBalance};${applicationContext().getString(R.string.current_acc)}\n")
                 else
-                    out.append("${account.accountID};${account.ownersName};${account.password};${account.oppeningDate};${account.accountBalance};savings_acc\n")
+                    out.append("${account.accountID};${account.ownersName};${account.password};${account.oppeningDate};${account.accountBalance};${applicationContext().getString(R.string.savings_acc)}\n")
             }
     }
 
