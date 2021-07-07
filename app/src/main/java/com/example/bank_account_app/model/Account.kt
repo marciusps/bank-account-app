@@ -1,8 +1,5 @@
 package com.example.bank_account_app.model
 
-import java.text.SimpleDateFormat
-import java.util.*
-
 abstract class Account (
     val accountID: Int, var ownersName: String, var password: String, var oppeningDate: String,
     var accountBalance: Long){

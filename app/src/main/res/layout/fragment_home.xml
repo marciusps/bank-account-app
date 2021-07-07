@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".model.activities.HomeFragment"
+    tools:context=".activities.HomeFragment"
     android:padding="25dp">
 
     <LinearLayout

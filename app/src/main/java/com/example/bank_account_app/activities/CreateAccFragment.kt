@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentCreateAccBinding
 import com.example.bank_account_app.model.AccountDao.writeUser
@@ -28,6 +30,10 @@ class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
     private lateinit var binding: FragmentCreateAccBinding
     private var param1: String? = null
     private var param2: String? = null
+
+    private val navController: NavController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,30 +96,11 @@ class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
                         Accounts.accountsList.add(user)
                         writeUser(user)
                     }
-                    popBackStack()
+                    navController.popBackStack()
                 } else {
                     toast("This user already have this account type!")
                 }
             }
         }
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Test1Fragment.
-         */
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CreateAccFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

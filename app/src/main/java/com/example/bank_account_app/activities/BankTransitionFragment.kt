@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentBankTransitionBinding
 import com.example.bank_account_app.model.AccountDao.writeFile
 import com.example.bank_account_app.model.Accounts
 import com.example.bank_account_app.utils.SharedPreferencesLogin
-import com.example.bank_account_app.utils.popBackStack
 import com.example.bank_account_app.utils.toast
 import java.text.NumberFormat
 
@@ -24,12 +26,17 @@ class BankTransitionFragment : Fragment(R.layout.fragment_bank_transition) {
     private lateinit var binding: FragmentBankTransitionBinding
     private var param1: String? = null
     private var param2: String? = null
+    private val args: BankTransitionFragmentArgs by navArgs()
+
+    private val navController: NavController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentBankTransitionBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -65,15 +72,14 @@ class BankTransitionFragment : Fragment(R.layout.fragment_bank_transition) {
                         etTransitionValue.addTextChangedListener(this)
                     }
                 }
-
                 override fun afterTextChanged(s: Editable?) {}
             })
 
             val user = Accounts.findUser(SharedPreferencesLogin.getLogin())
             balance.text = "R$%.2f".format(user?.accountBalance?.let { Accounts.coinToMoney(it) })
 
-            when (param1) {
-                "deposit" -> {
+            when (args.transition) {
+                getString(R.string.deposit) -> {
                     transitionType.text = "DEPOSIT"
                     btnSubmitTransition.setOnClickListener {
                         if (etTransitionValue.text.toString() != "") {
@@ -81,13 +87,13 @@ class BankTransitionFragment : Fragment(R.layout.fragment_bank_transition) {
                                 etTransitionValue.text.filter { it.isDigit() }.toString().toLong()
                             user?.deposit(transition)
                             writeFile()
-                            popBackStack()
+                            navController.popBackStack()
                         } else {
                             toast("Must enter some value!")
                         }
                     }
                 }
-                "withdraw" -> {
+                getString(R.string.withdraw) -> {
                     transitionType.text = "WITHDRAW"
                     btnSubmitTransition.setOnClickListener {
                         if (etTransitionValue.text.toString() != "") {
@@ -96,7 +102,7 @@ class BankTransitionFragment : Fragment(R.layout.fragment_bank_transition) {
                             if (user?.accountBalance ?: 0 - transition >= 0) {
                                 user?.withdraw(transition)
                                 writeFile()
-                                popBackStack()
+                                navController.popBackStack()
                             } else {
                                 toast("Cannot withdraw this amount!")
                             }
@@ -107,25 +113,5 @@ class BankTransitionFragment : Fragment(R.layout.fragment_bank_transition) {
                 }
             }
         }
-
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Test1Fragment.
-         */
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BankTransitionFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

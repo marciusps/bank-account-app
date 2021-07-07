@@ -6,7 +6,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 object Accounts {
-    //var idSesion: Int = 0
     var accountsList: ArrayList<Account> = ArrayList()
     var idCounter: Int = 1
 
@@ -22,29 +21,6 @@ object Accounts {
         }
         return newID + 1
     }
-
-//    fun accountLogout() {
-//        idSesion = 0
-//        writeSession()
-//    }
-
-//    fun readSession(): Int {
-//        val bufferedReader =
-//            BufferedReader(FileReader(MainApplication.applicationContext().cacheDir.absolutePath + "/session.csv"))
-//        val row = bufferedReader.readLine()
-//        if (row!=null){
-//            return row.toInt()
-//        } else
-//            writeSession()
-//            return 0
-//    }
-
-//    fun writeSession() {
-//        File(MainApplication.applicationContext().cacheDir.absolutePath + "/session.csv").bufferedWriter()
-//            .use { out ->
-//                out.write(Accounts.idSesion.toString())
-//            }
-//    }
 
     fun accountValidator(name: String, password: String): Account? {
         accountsList.forEach() {

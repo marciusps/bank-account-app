@@ -7,30 +7,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.bank_account_app.R
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.bank_account_app.databinding.FragmentLoginBinding
 import com.example.bank_account_app.model.AccountDao
 import com.example.bank_account_app.model.Accounts
 import com.example.bank_account_app.model.Accounts.toSHA256
-import com.example.bank_account_app.model.activities.HomeFragment
 import com.example.bank_account_app.utils.SharedPreferencesLogin
-import com.example.bank_account_app.utils.replaceFragment
 import com.example.bank_account_app.utils.toast
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class LoginFragment : Fragment(R.layout.fragment_login) {
+class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private var param1: String? = null
     private var param2: String? = null
 
+    private val navController: NavController by lazy {
+        findNavController()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,26 +48,21 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         AccountDao.readFile()
         Accounts.updateIDCounter()
-//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"marcius_vianna", "123".toSHA256(), Accounts.oppeningDate(),1000))
-//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"danilo_conrado", "123".toSHA256(), Accounts.oppeningDate(),2000))
-//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"cafe_xandynho", "123".toSHA256(), Accounts.oppeningDate(),3000))
+//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"Marcius", "123".toSHA256(), Accounts.oppeningDate(),1000))
+//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"Danilo", "123".toSHA256(), Accounts.oppeningDate(),2000))
+//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"Xandynho", "123".toSHA256(), Accounts.oppeningDate(),3000))
 //        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"Oi", "Oi".toSHA256(), Accounts.oppeningDate(),999999))
 //        AccountDao.writeFile()
 
         with(binding) {
             btnCreateAcc.setOnClickListener {
-                replaceFragment(
-                    CreateAccFragment.newInstance("new_acc", "CreateAccFragment"),
-                    R.id.fragment_container_view,
-                )
+                val action = LoginFragmentDirections.actionLoginFragmentToCreateAccFragment()
+                navController.navigate(action)
             }
 
             if (SharedPreferencesLogin.getLogin()[0].isNotBlank() || SharedPreferencesLogin.getLogin()[1].isNotBlank()) {
-                toast("Welcome back!!")
-                replaceFragment(
-                    HomeFragment.newInstance("home", "HomeFragment"),
-                    R.id.fragment_container_view,
-                )
+                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                navController.navigate(action)
             } else {
                 btnLogin.setOnClickListener {
                     val username = etUserName.text.toString()
@@ -80,10 +78,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                                     )
                                 )
                                 toast("Login efetuado com sucesso!")
-                                replaceFragment(
-                                    HomeFragment.newInstance("home", "HomeFragment"),
-                                    R.id.fragment_container_view,
-                                )
+                                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                                navController.navigate(action)
                             }
                         } else
                             toast("Login ou senha inválidos!")
@@ -123,24 +119,5 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun delay(delay: Long = 1500, action: () -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(action, delay)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Test1Fragment.
-         */
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
