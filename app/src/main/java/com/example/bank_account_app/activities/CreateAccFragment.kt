@@ -1,8 +1,6 @@
 package com.example.bank_account_app.activities
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +11,13 @@ import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentCreateAccBinding
 import com.example.bank_account_app.model.AccountDao.writeUser
 import com.example.bank_account_app.model.Accounts
-import com.example.bank_account_app.model.Accounts.existingAccount
+import com.example.bank_account_app.model.Accounts.accountFinder
 import com.example.bank_account_app.model.Accounts.toSHA256
 import com.example.bank_account_app.model.Accounts.updatedID
 import com.example.bank_account_app.model.CurrentAccount
 import com.example.bank_account_app.model.SavingsAccount
-import com.example.bank_account_app.utils.popBackStack
+import com.example.bank_account_app.utils.onChange
 import com.example.bank_account_app.utils.toast
-import java.text.NumberFormat
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -39,7 +36,7 @@ class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCreateAccBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,38 +50,14 @@ class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
         }
 
         with(binding) {
-            etAccBalance.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                var current = ""
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (s.toString().isNotBlank()) {
-                        etAccBalance.removeTextChangedListener(this)
-                        val cleanString = s?.replace("""[$,.]""".toRegex(), "") ?: s.toString()
-                        val parsed = cleanString.filter { it.isDigit() }.toDouble()
-                        val formatted = NumberFormat.getCurrencyInstance().format((parsed / 100))
-                        current = formatted
-                        etAccBalance.setText(formatted)
-                        etAccBalance.setSelection(formatted.length)
-                        etAccBalance.addTextChangedListener(this)
-                    }
-                }
-
-                override fun afterTextChanged(s: Editable?) {}
-            })
+            etAccBalance.onChange(etAccBalance)
 
             btnSubmitNewAcc.setOnClickListener {
                 val user = etUserName.text.toString()
                 val pass = etPassword.text.toString().toSHA256()
                 val bal = etAccBalance.text.filter { it.isDigit() }.toString().toLong()
 
-                if (!existingAccount(user, radioCurrentAcc.isChecked)) {
+                if (accountFinder(user, radioCurrentAcc.isChecked)==null) {
                     if (radioCurrentAcc.isChecked) {
                         val user =
                             CurrentAccount(updatedID(), user, pass, Accounts.oppeningDate(), bal)

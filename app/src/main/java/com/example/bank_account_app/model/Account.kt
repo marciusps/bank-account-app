@@ -8,7 +8,6 @@ abstract class Account (
 
     abstract fun withdraw(insertedMoney: Long)
 
-
     override fun toString(): String {
         return "Account(accountID= $accountID, ownersName= '$ownersName', password= '$password', " +
                 "oppeningDate= $oppeningDate, accountBalance= R$${accountBalance / 100})"

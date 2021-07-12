@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentHomeBinding
 import com.example.bank_account_app.model.AccountDao
@@ -14,16 +16,9 @@ import com.example.bank_account_app.model.Accounts.coinToMoney
 import com.example.bank_account_app.model.Accounts.findUser
 import com.example.bank_account_app.utils.SharedPreferencesLogin
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-class HomeFragment : Fragment(R.layout.fragment_home) {
-
-    private var pressedTime: Long = 0
+class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private var param1: String? = null
-    private var param2: String? = null
 
     private val navController: NavController by lazy {
         findNavController()
@@ -41,30 +36,50 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
         val user = findUser(SharedPreferencesLogin.getLogin())
+        user?.accountID?.let { AccountDao.readStatements(it) }
+
         with(binding) {
             homeUsername.text = user?.ownersName
-            homeBalance.text = "R$%.2f".format(user?.accountBalance?.let { coinToMoney(it) })
+            homeBalance.text = user?.accountBalance?.let { coinToMoney(it) }
             AccountDao.readFile() //for non logout
 
-            btnDeposit.setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToBankTransitionFragment(getString(R.string.deposit))
-                navController.navigate(action)
+            val list = ArrayList<String>()
+            list.add("deposit")
+            list.add("withdraw")
+            list.add("transfer")
+            list.add("statement")
+            list.add("logout")
+
+            val recyclerViewList: RecyclerView = binding.homeRecycler
+            val homeAdapter = HomeAdapter(list) {
+                when (it) {
+                    "deposit" ->
+                        navController.navigate(
+                            HomeFragmentDirections.actionHomeFragmentToBankTransitionFragment(
+                                getString(R.string.deposit)))
+
+                    "withdraw" ->
+                        navController.navigate(
+                            HomeFragmentDirections.actionHomeFragmentToBankTransitionFragment(
+                                getString(R.string.withdraw)))
+
+                    "transfer" ->
+                        navController.navigate(HomeFragmentDirections.actionHomeFragmentToBankTransferFragment())
+
+                    "statement" ->
+                        navController.navigate(HomeFragmentDirections.actionHomeFragmentToStatementFragment())
+
+                    "logout" -> {
+                        SharedPreferencesLogin.logout()
+                        navController.popBackStack()
+                    }
+                }
             }
 
-            btnWithdraw.setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToBankTransitionFragment(getString(R.string.withdraw))
-                navController.navigate(action)
-            }
-
-            btnLogout.setOnClickListener {
-                SharedPreferencesLogin.logout()
-                navController.popBackStack()
+            recyclerViewList.apply {
+                adapter = homeAdapter
+                layoutManager = GridLayoutManager(context, 2)
             }
         }
     }

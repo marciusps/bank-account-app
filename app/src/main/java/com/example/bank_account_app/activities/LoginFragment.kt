@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.bank_account_app.databinding.FragmentLoginBinding
 import com.example.bank_account_app.model.AccountDao
 import com.example.bank_account_app.model.Accounts
+import com.example.bank_account_app.model.Accounts.loginValidation
 import com.example.bank_account_app.model.Accounts.toSHA256
 import com.example.bank_account_app.utils.SharedPreferencesLogin
 import com.example.bank_account_app.utils.toast
@@ -48,11 +49,7 @@ class LoginFragment : Fragment() {
 
         AccountDao.readFile()
         Accounts.updateIDCounter()
-//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"Marcius", "123".toSHA256(), Accounts.oppeningDate(),1000))
-//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"Danilo", "123".toSHA256(), Accounts.oppeningDate(),2000))
-//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"Xandynho", "123".toSHA256(), Accounts.oppeningDate(),3000))
-//        Accounts.accountsList.add(CurrentAccount( Accounts.idCounter++,"Oi", "Oi".toSHA256(), Accounts.oppeningDate(),999999))
-//        AccountDao.writeFile()
+
 
         with(binding) {
             btnCreateAcc.setOnClickListener {
@@ -68,7 +65,7 @@ class LoginFragment : Fragment() {
                     val username = etUserName.text.toString()
                     val password = etPassword.text.toString().toSHA256()
                     if (username != "" || password != "") {
-                        if (userPermission(username, password)) {
+                        if (loginValidation(username, password, radioCurrentAcc.isChecked)) {
                             changeState(true)
                             delay {
                                 SharedPreferencesLogin.saveLogin(
@@ -82,7 +79,7 @@ class LoginFragment : Fragment() {
                                 navController.navigate(action)
                             }
                         } else
-                            toast("Login ou senha inválidos!")
+                            toast("Dados inválidos!")
                     }
                 }
             }

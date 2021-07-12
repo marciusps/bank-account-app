@@ -10,8 +10,6 @@
     <string name="deposit">deposit</string>
     <string name="withdraw">withdraw</string>
 
-
-
     <string name="login_user">preferences_shared_login_user</string>
     <string name="key">preferences_shared_login_id</string>
     <string name="password">preferences_shared_login_password</string>

@@ -7,6 +7,8 @@ import kotlin.collections.ArrayList
 
 object Accounts {
     var accountsList: ArrayList<Account> = ArrayList()
+    var statementsList: ArrayList<String> = ArrayList()
+    var operationList: ArrayList<String> = ArrayList()
     var idCounter: Int = 1
 
     fun updateIDCounter() {
@@ -40,9 +42,9 @@ object Accounts {
     }
 
     fun oppeningDate(): String {
-        val pattern = "dd-MM-yyyy"
+        val pattern = "dd MMM"
         val simpleDateFormat = SimpleDateFormat(pattern)
-        return simpleDateFormat.format(Date())
+        return simpleDateFormat.format(Date()).uppercase()
     }
 
     fun String.toSHA256(): String {
@@ -50,15 +52,25 @@ object Accounts {
         return messageDigest.fold("", { str, it -> str + "%02x".format(it) })
     }
 
-    fun coinToMoney(coin: Long): Float {
-        return coin / 100f
+    fun coinToMoney(coin: Long): String {
+        return "R$%.2f".format(coin / 100f)
     }
 
-    fun existingAccount(name: String, current: Boolean): Boolean {
+    fun accountFinder(name: String, current: Boolean): Account?{
         accountsList.forEach {
             if (name == it.ownersName && name.length == it.ownersName.length && it is CurrentAccount && current == true)
-                return true
+                return it
             if (name == it.ownersName && name.length == it.ownersName.length && it is SavingsAccount && current == false)
+                return it
+        }
+        return null
+    }
+
+    fun loginValidation(name: String, password: String, current: Boolean): Boolean{
+        accountsList.forEach {
+            if (name == it.ownersName && password == it.password && name.length == it.ownersName.length && it is CurrentAccount && current == true)
+                return true
+            if (name == it.ownersName && password == it.password && name.length == it.ownersName.length && it is SavingsAccount && current == false)
                 return true
         }
         return false

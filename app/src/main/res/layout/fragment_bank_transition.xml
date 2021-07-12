@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Movimentação Bancária"
+            android:textAllCaps="true"
             android:layout_gravity="top"
             android:gravity="center"
             android:textSize="25dp"

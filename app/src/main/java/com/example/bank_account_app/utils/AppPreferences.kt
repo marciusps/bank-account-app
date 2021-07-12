@@ -2,7 +2,6 @@ package com.example.bank_account_app.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.widget.Toast
 import com.example.bank_account_app.R
 import com.example.bank_account_app.model.Account
 
@@ -19,7 +18,6 @@ object SharedPreferencesLogin {
             putString("key", account?.accountID.toString())
             putString("password", account?.password)
             apply()
-            //Toast.makeText(MainApplication.applicationContext(), "Saved login.", Toast.LENGTH_SHORT).show()
         }
     }
 

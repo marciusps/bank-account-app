@@ -8,6 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="app_academy_color_on_selected">#25CBF4</color>
+    <color name="menu_color_on_selected">#64ABBD</color>
     <color name="app_academy_color">#257cf4</color>
     <color name="grey">#494949</color>
+    <color name="dark_grey">#232323</color>
+    <color name="white_circle">#F6F6F5</color>
 </resources>

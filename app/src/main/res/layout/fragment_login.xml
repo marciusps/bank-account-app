@@ -34,6 +34,26 @@
             android:textColor="#000000"
             android:textColorHint="#B1B1B1" />
 
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <RadioButton
+                android:id="@+id/radio_current_acc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Account"
+                android:textColor="@color/grey"/>
+            <RadioButton
+                android:id="@+id/radio_savings_acc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Savings Account"
+                android:textColor="@color/grey"/>
+        </RadioGroup>
+
         <FrameLayout
             android:id="@+id/btn_create_acc"
             android:layout_width="200dp"
