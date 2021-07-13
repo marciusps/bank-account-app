@@ -1,4 +1,4 @@
-package com.example.bank_account_app.activities
+package com.example.bank_account_app.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -38,32 +38,30 @@ class StatementAdapter(private val dataSet: ArrayList<String>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         val row = dataSet[position].split(";")
-
         viewHolder.textViewTitle.text = row[0]
         viewHolder.textViewValue.text = row[2]
         viewHolder.textViewDate.text = row[3] //transformar formato de data
 
         if(row[0]=="Transferência enviada"){
-            viewHolder.imageView.setImageResource(R.drawable.ic_deposit)
+            viewHolder.imageView.setImageResource(R.drawable.ic_send_money)
             viewHolder.textViewName.text = row[1]
         }
 
         if(row[0]=="Transferência recebida"){
-            viewHolder.imageView.setImageResource(R.drawable.ic_withdraw)
+            viewHolder.imageView.setImageResource(R.drawable.ic_receive_money)
             viewHolder.textViewName.text = row[1]
         }
 
         if(row[0]=="Depósito"){
-            viewHolder.imageView.setImageResource(R.drawable.ic_personal_deoisit)
+            viewHolder.imageView.setImageResource(R.drawable.ic_deposit)
             viewHolder.textViewName.visibility = View.GONE
         }
 
         if(row[0]=="Saque"){
-            viewHolder.imageView.setImageResource(R.drawable.ic_personal_withdraw)
+            viewHolder.imageView.setImageResource(R.drawable.ic_withdraw)
             viewHolder.textViewName.visibility = View.GONE
         }
     }
 
     override fun getItemCount() = dataSet.size
-
 }

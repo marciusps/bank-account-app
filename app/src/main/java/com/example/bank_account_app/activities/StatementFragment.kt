@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bank_account_app.adapters.StatementAdapter
 import com.example.bank_account_app.databinding.FragmentStatementBinding
-import com.example.bank_account_app.model.Accounts
+import com.example.bank_account_app.utils.Utils
 
 class StatementFragment : Fragment() {
 
@@ -29,7 +30,7 @@ class StatementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        list = Accounts.statementsList
+        list = Utils.statementsList
 
         val recyclerViewList: RecyclerView = binding.statementFragment
         val customAdapter = StatementAdapter(list)

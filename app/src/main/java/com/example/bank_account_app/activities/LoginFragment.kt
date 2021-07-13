@@ -1,5 +1,6 @@
 package com.example.bank_account_app.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,22 +10,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentLoginBinding
-import com.example.bank_account_app.model.AccountDao
-import com.example.bank_account_app.model.Accounts
-import com.example.bank_account_app.model.Accounts.loginValidation
-import com.example.bank_account_app.model.Accounts.toSHA256
+import com.example.bank_account_app.utils.AccountDao
 import com.example.bank_account_app.utils.SharedPreferencesLogin
+import com.example.bank_account_app.utils.Utils
+import com.example.bank_account_app.utils.Utils.loginValidation
+import com.example.bank_account_app.utils.Utils.toSHA256
 import com.example.bank_account_app.utils.toast
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private var param1: String? = null
-    private var param2: String? = null
 
     private val navController: NavController by lazy {
         findNavController()
@@ -42,14 +39,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
 
         AccountDao.readFile()
-        Accounts.updateIDCounter()
-
+        Utils.updateIDCounter()
+        AccountDao.readMenu()
 
         with(binding) {
             btnCreateAcc.setOnClickListener {
@@ -64,34 +57,19 @@ class LoginFragment : Fragment() {
                 btnLogin.setOnClickListener {
                     val username = etUserName.text.toString()
                     val password = etPassword.text.toString().toSHA256()
-                    if (username != "" || password != "") {
-                        if (loginValidation(username, password, radioCurrentAcc.isChecked)) {
-                            changeState(true)
-                            delay {
-                                SharedPreferencesLogin.saveLogin(
-                                    Accounts.accountValidator(
-                                        username,
-                                        password
-                                    )
-                                )
-                                toast("Login efetuado com sucesso!")
-                                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-                                navController.navigate(action)
-                            }
-                        } else
-                            toast("Dados inválidos!")
-                    }
+                    if (loginValidation(username, password, radioCurrentAcc.isChecked)) {
+                        changeState(true)
+                        delay {
+                            SharedPreferencesLogin.saveLogin(Utils.accountValidator(username, password))
+                            toast("Login efetuado com sucesso!")
+                            val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                            navController.navigate(action)
+                        }
+                    } else
+                        toast("Dados inválidos!")
                 }
             }
         }
-    }
-
-    private fun userPermission(user: String, password: String): Boolean {
-        Accounts.accountsList.forEach() {
-            if (user == it.ownersName && password == it.password)
-                return true
-        }
-        return false
     }
 
     private fun changeState(isLoading: Boolean) {

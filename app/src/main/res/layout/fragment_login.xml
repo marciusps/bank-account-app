@@ -39,18 +39,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="15dp">
             <RadioButton
                 android:id="@+id/radio_current_acc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Current Account"
+                android:textSize="12dp"
                 android:textColor="@color/grey"/>
             <RadioButton
                 android:id="@+id/radio_savings_acc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Savings Account"
+                android:textSize="12dp"
                 android:textColor="@color/grey"/>
         </RadioGroup>
 
@@ -61,14 +65,16 @@
             android:clickable="true"
             android:focusable="true"
             android:background="@drawable/buttom_background_selector"
-            android:layout_marginTop="10dp">
+            android:layout_marginVertical="10dp"
+            android:elevation="2dp"
+            android:translationZ="2dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingHorizontal="15dp"
-                android:paddingVertical="8dp"
+                android:paddingVertical="5dp"
                 android:text="create account"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -82,14 +88,16 @@
             android:clickable="true"
             android:focusable="true"
             android:background="@drawable/buttom_background_selector"
-            android:layout_marginTop="10dp">
+            android:layout_marginVertical="10dp"
+            android:elevation="2dp"
+            android:translationZ="2dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingHorizontal="15dp"
-                android:paddingVertical="8dp"
+                android:paddingVertical="5dp"
                 android:text="Login"
                 android:textAllCaps="true"
                 android:textColor="@color/white"

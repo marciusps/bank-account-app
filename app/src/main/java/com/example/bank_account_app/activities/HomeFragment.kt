@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bank_account_app.R
+import com.example.bank_account_app.adapters.HomeAdapter
 import com.example.bank_account_app.databinding.FragmentHomeBinding
-import com.example.bank_account_app.model.AccountDao
-import com.example.bank_account_app.model.Accounts.coinToMoney
-import com.example.bank_account_app.model.Accounts.findUser
+import com.example.bank_account_app.utils.AccountDao
+import com.example.bank_account_app.utils.Utils
+import com.example.bank_account_app.utils.Utils.coinToMoney
+import com.example.bank_account_app.utils.Utils.findUser
 import com.example.bank_account_app.utils.SharedPreferencesLogin
 
 class HomeFragment : Fragment() {
@@ -44,15 +47,8 @@ class HomeFragment : Fragment() {
             homeBalance.text = user?.accountBalance?.let { coinToMoney(it) }
             AccountDao.readFile() //for non logout
 
-            val list = ArrayList<String>()
-            list.add("deposit")
-            list.add("withdraw")
-            list.add("transfer")
-            list.add("statement")
-            list.add("logout")
-
             val recyclerViewList: RecyclerView = binding.homeRecycler
-            val homeAdapter = HomeAdapter(list) {
+            val homeAdapter = HomeAdapter(Utils.menuList) {
                 when (it) {
                     "deposit" ->
                         navController.navigate(
@@ -69,17 +65,17 @@ class HomeFragment : Fragment() {
 
                     "statement" ->
                         navController.navigate(HomeFragmentDirections.actionHomeFragmentToStatementFragment())
-
-                    "logout" -> {
-                        SharedPreferencesLogin.logout()
-                        navController.popBackStack()
-                    }
                 }
             }
 
             recyclerViewList.apply {
                 adapter = homeAdapter
                 layoutManager = GridLayoutManager(context, 2)
+            }
+
+            btnlogout.setOnClickListener{
+                SharedPreferencesLogin.logout()
+                navController.popBackStack()
             }
         }
     }

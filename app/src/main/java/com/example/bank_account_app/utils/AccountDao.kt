@@ -1,6 +1,9 @@
-package com.example.bank_account_app.model
+package com.example.bank_account_app.utils
 
 import com.example.bank_account_app.R
+import com.example.bank_account_app.model.Account
+import com.example.bank_account_app.model.CurrentAccount
+import com.example.bank_account_app.model.SavingsAccount
 import com.example.bank_account_app.utils.MainApplication.Companion.applicationContext
 import java.io.BufferedReader
 import java.io.File
@@ -12,12 +15,11 @@ const val accounts: String = "accounts"
 object AccountDao {
 
     fun readFile(): ArrayList<Account> {
-        Accounts.accountsList = ArrayList()
+        Utils.accountsList = ArrayList()
             if(!File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").exists())
                 File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").createNewFile()
 
-
-        return Accounts.accountsList.also {
+        return Utils.accountsList.also {
             val bufferedReader =
                 BufferedReader(FileReader(applicationContext().cacheDir.absolutePath + "/${accounts}.csv"))
             var row: List<String>
@@ -25,7 +27,7 @@ object AccountDao {
                 row = bufferedReader.readLine().split(";")
                 if (row[5] == applicationContext().getString(R.string.current_acc)) {
                     //accountID, ownersName, password, oppeningDate, accountBalance
-                    Accounts.accountsList.add(
+                    Utils.accountsList.add(
                         CurrentAccount(
                             row[0].toInt(),
                             row[1],
@@ -35,7 +37,7 @@ object AccountDao {
                         )
                     )
                 } else {
-                    Accounts.accountsList.add(
+                    Utils.accountsList.add(
                         SavingsAccount(
                             row[0].toInt(),
                             row[1],
@@ -52,7 +54,7 @@ object AccountDao {
     fun writeFile() {
         File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").bufferedWriter()
             .use { out ->
-                Accounts.accountsList.forEach {
+                Utils.accountsList.forEach {
                     if (it is CurrentAccount) {
                         out.write(
                             "${it.accountID};${it.ownersName};${it.password};${it.oppeningDate};${it.accountBalance};${
@@ -99,8 +101,8 @@ object AccountDao {
     }
 
     fun readStatements(id: Int): ArrayList<String> {
-        Accounts.statementsList = ArrayList()
-        return Accounts.statementsList.also {
+        Utils.statementsList = ArrayList()
+        return Utils.statementsList.also {
             if(!File(applicationContext().cacheDir.absolutePath + "/${id}.csv").exists()){
                 File(applicationContext().cacheDir.absolutePath + "/${id}.csv").createNewFile()
             }
@@ -109,7 +111,7 @@ object AccountDao {
             var row: String
             while (bufferedReader.ready()) {
                 row = bufferedReader.readLine()
-                    Accounts.statementsList.add(row)
+                    Utils.statementsList.add(row)
             }
         }
     }
@@ -121,6 +123,34 @@ object AccountDao {
         ).bufferedWriter()
             .use { out ->
                 out.write("${statement}\n")
+            }
+    }
+
+    fun readMenu(): ArrayList<String> {
+        Utils.menuList = ArrayList()
+        return Utils.menuList.also {
+            if(!File(applicationContext().cacheDir.absolutePath + "/menu.csv").exists()){
+                File(applicationContext().cacheDir.absolutePath + "/menu.csv").createNewFile()
+            }
+            val bufferedReader =
+                BufferedReader(FileReader(applicationContext().cacheDir.absolutePath + "/menu.csv"))
+            var row: String
+            while (bufferedReader.ready()) {
+                row = bufferedReader.readLine()
+                Utils.menuList.add(row)
+            }
+        }
+    }
+
+    fun writeMenu() {
+        FileOutputStream(
+            applicationContext().cacheDir.absolutePath + "/menu.csv",
+            true
+        ).bufferedWriter()
+            .use { out ->
+                Utils.menuList.forEach{
+                    out.write("${it}\n")
+                }
             }
     }
 }

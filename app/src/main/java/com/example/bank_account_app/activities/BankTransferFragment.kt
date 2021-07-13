@@ -9,11 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.bank_account_app.databinding.FragmentBankTransferBinding
-import com.example.bank_account_app.model.AccountDao
-import com.example.bank_account_app.model.Accounts
-import com.example.bank_account_app.utils.SharedPreferencesLogin
-import com.example.bank_account_app.utils.onChange
-import com.example.bank_account_app.utils.toast
+import com.example.bank_account_app.utils.*
 
 class BankTransferFragment : Fragment() {
 
@@ -39,11 +35,11 @@ class BankTransferFragment : Fragment() {
         with(binding) {
             etTransitionValue.onChange(etTransitionValue)
 
-            val user = Accounts.findUser(SharedPreferencesLogin.getLogin())
-            balance.text = user?.accountBalance?.let { Accounts.coinToMoney(it) }
+            val user = Utils.findUser(SharedPreferencesLogin.getLogin())
+            balance.text = user?.accountBalance?.let { Utils.coinToMoney(it) }
 
             btnSubmitTransfer.setOnClickListener{
-                val transferAccount = Accounts.accountFinder(etAccName.text.toString(), radioCurrentAcc.isChecked)
+                val transferAccount = Utils.accountFinder(etAccName.text.toString(), radioCurrentAcc.isChecked)
                 if(transferAccount != null){
                     if (etTransitionValue.text.toString() != "") {
                         val transition =
@@ -51,9 +47,9 @@ class BankTransferFragment : Fragment() {
                         if (user?.accountBalance ?: 0 - transition >= 0) {
                             user?.withdraw(transition)
                             transferAccount.deposit(transition)
-                            val statement1 = "Transferência enviada;${transferAccount?.ownersName};${Accounts.coinToMoney(transition)};${Accounts.oppeningDate()}"
-                            val statement2 = "Transferência recebida;${user?.ownersName};${Accounts.coinToMoney(transition)};${Accounts.oppeningDate()}"
-                            Accounts.statementsList.add(statement1)
+                            val statement1 = "Transferência enviada;${transferAccount?.ownersName};${Utils.coinToMoney(transition)};${Utils.oppeningDate()}"
+                            val statement2 = "Transferência recebida;${user?.ownersName};${Utils.coinToMoney(transition)};${Utils.oppeningDate()}"
+                            Utils.statementsList.add(statement1)
                             user?.accountID?.let { it1 -> AccountDao.writeStatement(it1, statement1) }
                             AccountDao.writeStatement(transferAccount.accountID, statement2)
                             AccountDao.writeFile()

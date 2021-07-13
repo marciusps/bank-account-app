@@ -1,14 +1,17 @@
-package com.example.bank_account_app.model
+package com.example.bank_account_app.utils
 
+import com.example.bank_account_app.model.Account
+import com.example.bank_account_app.model.CurrentAccount
+import com.example.bank_account_app.model.SavingsAccount
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-object Accounts {
+object Utils {
     var accountsList: ArrayList<Account> = ArrayList()
     var statementsList: ArrayList<String> = ArrayList()
-    var operationList: ArrayList<String> = ArrayList()
+    var menuList: ArrayList<String> = ArrayList()
     var idCounter: Int = 1
 
     fun updateIDCounter() {
@@ -67,12 +70,8 @@ object Accounts {
     }
 
     fun loginValidation(name: String, password: String, current: Boolean): Boolean{
-        accountsList.forEach {
-            if (name == it.ownersName && password == it.password && name.length == it.ownersName.length && it is CurrentAccount && current == true)
-                return true
-            if (name == it.ownersName && password == it.password && name.length == it.ownersName.length && it is SavingsAccount && current == false)
-                return true
-        }
+        if(name.isNotBlank() || password.isNotBlank())
+            return (accountFinder(name, current) != null)
         return false
     }
 }

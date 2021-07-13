@@ -10,20 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentBankTransitionBinding
-import com.example.bank_account_app.model.AccountDao
-import com.example.bank_account_app.model.Accounts
-import com.example.bank_account_app.utils.SharedPreferencesLogin
-import com.example.bank_account_app.utils.onChange
-import com.example.bank_account_app.utils.toast
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.example.bank_account_app.utils.*
 
 class BankTransitionFragment : Fragment() {
 
     private lateinit var binding: FragmentBankTransitionBinding
-    private var param1: String? = null
-    private var param2: String? = null
     private val args: BankTransitionFragmentArgs by navArgs()
 
     private val navController: NavController by lazy {
@@ -42,27 +33,22 @@ class BankTransitionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
         with(binding) {
             etTransitionValue.onChange(etTransitionValue)
 
-            val user = Accounts.findUser(SharedPreferencesLogin.getLogin())
-            balance.text = user?.accountBalance?.let { Accounts.coinToMoney(it) }
+            val user = Utils.findUser(SharedPreferencesLogin.getLogin())
+            balance.text = user?.accountBalance?.let { Utils.coinToMoney(it) }
 
             when (args.transition) {
                 getString(R.string.deposit) -> {
-                    transitionType.text = getString(R.string.deposit)
+                    transitionType.text = "depósito"
                     btnSubmitTransition.setOnClickListener {
                         if (etTransitionValue.text.toString() != "") {
                             val transition =
                                 etTransitionValue.text.filter { it.isDigit() }.toString().toLong()
                             user?.deposit(transition)
-                            val statement = "Depósito;${user?.ownersName};${Accounts.coinToMoney(transition)};${Accounts.oppeningDate()}"
-                            Accounts.statementsList.add(statement)
+                            val statement = "Depósito;${user?.ownersName};${Utils.coinToMoney(transition)};${Utils.oppeningDate()}"
+                            Utils.statementsList.add(statement)
                             user?.accountID?.let { it1 -> AccountDao.writeStatement(it1, statement) }
                             AccountDao.writeFile()
                             navController.popBackStack()
@@ -72,15 +58,15 @@ class BankTransitionFragment : Fragment() {
                     }
                 }
                 getString(R.string.withdraw) -> {
-                    transitionType.text = getString(R.string.withdraw)
+                    transitionType.text = "saque"
                     btnSubmitTransition.setOnClickListener {
                         if (etTransitionValue.text.toString() != "") {
                             val transition =
                                 etTransitionValue.text.filter { it.isDigit() }.toString().toLong()
                             if (user?.accountBalance ?: 0 - transition >= 0) {
                                 user?.withdraw(transition)
-                                val statement = "Saque;${user?.ownersName};${Accounts.coinToMoney(transition)};${Accounts.oppeningDate()}"
-                                Accounts.statementsList.add(statement)
+                                val statement = "Saque;${user?.ownersName};${Utils.coinToMoney(transition)};${Utils.oppeningDate()}"
+                                Utils.statementsList.add(statement)
                                 user?.accountID?.let { it1 -> AccountDao.writeStatement(it1, statement) }
                                 AccountDao.writeFile()
                                 navController.popBackStack()

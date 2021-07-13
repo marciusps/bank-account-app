@@ -9,24 +9,19 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentCreateAccBinding
-import com.example.bank_account_app.model.AccountDao.writeUser
-import com.example.bank_account_app.model.Accounts
-import com.example.bank_account_app.model.Accounts.accountFinder
-import com.example.bank_account_app.model.Accounts.toSHA256
-import com.example.bank_account_app.model.Accounts.updatedID
+import com.example.bank_account_app.utils.Utils
+import com.example.bank_account_app.utils.Utils.accountFinder
+import com.example.bank_account_app.utils.Utils.toSHA256
+import com.example.bank_account_app.utils.Utils.updatedID
 import com.example.bank_account_app.model.CurrentAccount
 import com.example.bank_account_app.model.SavingsAccount
+import com.example.bank_account_app.utils.AccountDao
 import com.example.bank_account_app.utils.onChange
 import com.example.bank_account_app.utils.toast
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
 
     private lateinit var binding: FragmentCreateAccBinding
-    private var param1: String? = null
-    private var param2: String? = null
 
     private val navController: NavController by lazy {
         findNavController()
@@ -44,11 +39,6 @@ class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
         with(binding) {
             etAccBalance.onChange(etAccBalance)
 
@@ -60,14 +50,14 @@ class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
                 if (accountFinder(user, radioCurrentAcc.isChecked)==null) {
                     if (radioCurrentAcc.isChecked) {
                         val user =
-                            CurrentAccount(updatedID(), user, pass, Accounts.oppeningDate(), bal)
-                        Accounts.accountsList.add(user)
-                        writeUser(user)
+                            CurrentAccount(updatedID(), user, pass, Utils.oppeningDate(), bal)
+                        Utils.accountsList.add(user)
+                        AccountDao.writeUser(user)
                     } else {
                         val user =
-                            SavingsAccount(updatedID(), user, pass, Accounts.oppeningDate(), bal)
-                        Accounts.accountsList.add(user)
-                        writeUser(user)
+                            SavingsAccount(updatedID(), user, pass, Utils.oppeningDate(), bal)
+                        Utils.accountsList.add(user)
+                        AccountDao.writeUser(user)
                     }
                     navController.popBackStack()
                 } else {

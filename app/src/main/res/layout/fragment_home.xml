@@ -1,49 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".activities.HomeFragment"
-    android:padding="25dp">
+    android:padding="5dp"
+    tools:context=".activities.HomeFragment">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top">
+        android:layout_gravity="right"
+        android:background="@drawable/menu_bottons_background_selector"
+        tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/home_balance"
+            android:id="@+id/btnlogout"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="R$00,00"
-            android:padding="10dp" />
-    </LinearLayout>
+            android:layout_gravity="right"
+            android:text="logout"
+            android:textAllCaps="true"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
-
         <TextView
             android:id="@+id/home_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="username"
-            android:padding="10dp" />
+            android:text="username" />
+        <TextView
+            android:id="@+id/home_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R$00,00" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".activities.HomeAdapter"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        android:orientation="vertical"
-        android:id="@+id/homeRecycler"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/homeRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="20dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:context=".adapters.HomeAdapter"></androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+</FrameLayout>
