@@ -15,9 +15,10 @@ const val accounts: String = "accounts"
 object AccountDao {
 
     fun readFile(): ArrayList<Account> {
+
         Utils.accountsList = ArrayList()
-            if(!File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").exists())
-                File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").createNewFile()
+        if (!File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").exists())
+            File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").createNewFile()
 
         return Utils.accountsList.also {
             val bufferedReader =
@@ -49,6 +50,29 @@ object AccountDao {
                 }
             }
         }
+    }
+
+    fun daleContas(): String {
+        for (i in 1..10000) {
+            if (i % 2 == 0) {
+                Utils.accountsList.add(
+                    CurrentAccount(
+                        Utils.updatedID(), "${Utils.updatedID()}", "${Utils.updatedID()}",
+                        Utils.oppeningDate(), (100L..10000L).random()
+                    )
+                )
+            } else
+                Utils.accountsList.add(
+                    SavingsAccount(
+                        Utils.updatedID(), "${Utils.updatedID()}", "${Utils.updatedID()}",
+                        Utils.oppeningDate(), (100L..10000L).random()
+                    )
+                )
+
+        }
+        writeFile()
+        Utils.coroutine = true
+        return "generated accounts"
     }
 
     fun writeFile() {
@@ -103,7 +127,7 @@ object AccountDao {
     fun readStatements(id: Int): ArrayList<String> {
         Utils.statementsList = ArrayList()
         return Utils.statementsList.also {
-            if(!File(applicationContext().cacheDir.absolutePath + "/${id}.csv").exists()){
+            if (!File(applicationContext().cacheDir.absolutePath + "/${id}.csv").exists()) {
                 File(applicationContext().cacheDir.absolutePath + "/${id}.csv").createNewFile()
             }
             val bufferedReader =
@@ -111,7 +135,7 @@ object AccountDao {
             var row: String
             while (bufferedReader.ready()) {
                 row = bufferedReader.readLine()
-                    Utils.statementsList.add(row)
+                Utils.statementsList.add(row)
             }
         }
     }
@@ -129,7 +153,7 @@ object AccountDao {
     fun readMenu(): ArrayList<String> {
         Utils.menuList = ArrayList()
         return Utils.menuList.also {
-            if(!File(applicationContext().cacheDir.absolutePath + "/menu.csv").exists()){
+            if (!File(applicationContext().cacheDir.absolutePath + "/menu.csv").exists()) {
                 File(applicationContext().cacheDir.absolutePath + "/menu.csv").createNewFile()
             }
             val bufferedReader =
@@ -148,7 +172,7 @@ object AccountDao {
             true
         ).bufferedWriter()
             .use { out ->
-                Utils.menuList.forEach{
+                Utils.menuList.forEach {
                     out.write("${it}\n")
                 }
             }

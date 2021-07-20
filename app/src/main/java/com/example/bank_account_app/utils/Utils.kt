@@ -13,6 +13,7 @@ object Utils {
     var statementsList: ArrayList<String> = ArrayList()
     var menuList: ArrayList<String> = ArrayList()
     var idCounter: Int = 1
+    var coroutine: Boolean = false
 
     fun updateIDCounter() {
         idCounter = accountsList.size

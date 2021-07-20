@@ -1,6 +1,5 @@
 package com.example.bank_account_app.activities
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentLoginBinding
 import com.example.bank_account_app.utils.AccountDao
 import com.example.bank_account_app.utils.SharedPreferencesLogin
@@ -18,6 +17,10 @@ import com.example.bank_account_app.utils.Utils
 import com.example.bank_account_app.utils.Utils.loginValidation
 import com.example.bank_account_app.utils.Utils.toSHA256
 import com.example.bank_account_app.utils.toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginFragment : Fragment() {
 
@@ -92,7 +95,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun delay(delay: Long = 1500, action: () -> Unit) {
+    private fun delay(delay: Long = 2000, action: () -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(action, delay)
     }
 }

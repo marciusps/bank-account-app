@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="5dp"
     tools:context=".activities.HomeFragment">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
@@ -21,33 +21,46 @@
             android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="10dp"
             android:text="logout"
             android:textAllCaps="true"
             android:textColor="@color/purple_500"
             android:textStyle="bold" />
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
         <TextView
             android:id="@+id/home_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="username" />
         <TextView
             android:id="@+id/home_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="R$00,00" />
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressCoroutine"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_gravity="center|end"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/login_progress_bg"
+            android:progress="0"
+            android:visibility="invisible"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="500dp"
         android:layout_gravity="center">
 
         <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -58,6 +71,6 @@
             android:orientation="vertical"
             android:paddingVertical="20dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:context=".adapters.HomeAdapter"></androidx.recyclerview.widget.RecyclerView>
+            tools:context=".adapters.HomeAdapter"/>
     </LinearLayout>
 </FrameLayout>

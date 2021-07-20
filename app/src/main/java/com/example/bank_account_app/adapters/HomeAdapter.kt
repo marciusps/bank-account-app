@@ -46,6 +46,9 @@ class HomeAdapter(private val dataSet: ArrayList<String>, private val onClick: (
         if(dataSet[position]=="statement")
             holder.btn_icon.setImageResource(R.drawable.ic_statement)
 
+        if(dataSet[position]=="coroutines")
+            holder.btn_icon.setImageResource(R.drawable.ic_coroutines)
+
         holder.btn_recycler.setOnClickListener{
             onClick.invoke(dataSet[position])
         }
