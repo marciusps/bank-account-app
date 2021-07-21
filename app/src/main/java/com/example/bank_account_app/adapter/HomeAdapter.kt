@@ -1,4 +1,4 @@
-package com.example.bank_account_app.adapters
+package com.example.bank_account_app.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -46,7 +46,7 @@ class HomeAdapter(private val dataSet: ArrayList<String>, private val onClick: (
         if(dataSet[position]=="statement")
             holder.btn_icon.setImageResource(R.drawable.ic_statement)
 
-        if(dataSet[position]=="coroutines")
+        if(dataSet[position]=="+10k")
             holder.btn_icon.setImageResource(R.drawable.ic_coroutines)
 
         holder.btn_recycler.setOnClickListener{

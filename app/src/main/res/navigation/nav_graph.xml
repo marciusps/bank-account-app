@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.bank_account_app.activities.HomeFragment"
+        android:name="com.example.bank_account_app.activity.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -25,12 +25,12 @@
     </fragment>
     <fragment
         android:id="@+id/createAccFragment"
-        android:name="com.example.bank_account_app.activities.CreateAccFragment"
+        android:name="com.example.bank_account_app.activity.CreateAccFragment"
         android:label="fragment_create_acc"
         tools:layout="@layout/fragment_create_acc" />
     <fragment
         android:id="@+id/bankTransitionFragment"
-        android:name="com.example.bank_account_app.activities.BankTransitionFragment"
+        android:name="com.example.bank_account_app.activity.BankTransitionFragment"
         android:label="fragment_bank_transition"
         tools:layout="@layout/fragment_bank_transition" >
         <argument
@@ -39,18 +39,18 @@
     </fragment>
     <fragment
         android:id="@+id/bankTransferFragment"
-        android:name="com.example.bank_account_app.activities.BankTransferFragment"
+        android:name="com.example.bank_account_app.activity.BankTransferFragment"
         android:label="fragment_transfer"
         tools:layout="@layout/fragment_bank_transfer" />
     <fragment
         android:id="@+id/statementFragment"
-        android:name="com.example.bank_account_app.activities.StatementFragment"
+        android:name="com.example.bank_account_app.activity.StatementFragment"
         android:label="fragment_statement"
         tools:layout="@layout/fragment_statement" />
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.bank_account_app.activities.LoginFragment"
+        android:name="com.example.bank_account_app.activity.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action

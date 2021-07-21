@@ -1,4 +1,4 @@
-package com.example.bank_account_app.activities
+package com.example.bank_account_app.activity
 
 import android.os.Bundle
 import android.os.Handler
@@ -7,20 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.bank_account_app.databinding.FragmentLoginBinding
-import com.example.bank_account_app.utils.AccountDao
-import com.example.bank_account_app.utils.SharedPreferencesLogin
-import com.example.bank_account_app.utils.Utils
-import com.example.bank_account_app.utils.Utils.loginValidation
-import com.example.bank_account_app.utils.Utils.toSHA256
-import com.example.bank_account_app.utils.toast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.bank_account_app.util.AccountDao
+import com.example.bank_account_app.util.AccountManager
+import com.example.bank_account_app.util.AccountManager.loginValidation
+import com.example.bank_account_app.util.AccountManager.toSHA256
+import com.example.bank_account_app.util.SharedPreferencesLogin
+import com.example.bank_account_app.util.toast
 
 class LoginFragment : Fragment() {
 
@@ -44,8 +39,8 @@ class LoginFragment : Fragment() {
 
 
         AccountDao.readFile()
-        Utils.updateIDCounter()
-        AccountDao.readMenu()
+        AccountManager.updateIDCounter()
+        AccountDao.fillMenu()
 
         with(binding) {
             btnCreateAcc.setOnClickListener {
@@ -63,7 +58,7 @@ class LoginFragment : Fragment() {
                     if (loginValidation(username, password, radioCurrentAcc.isChecked)) {
                         changeState(true)
                         delay {
-                            SharedPreferencesLogin.saveLogin(Utils.accountValidator(username, password))
+                            SharedPreferencesLogin.saveLogin(AccountManager.accountValidator(username, password))
                             toast("Login efetuado com sucesso!")
                             val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                             navController.navigate(action)

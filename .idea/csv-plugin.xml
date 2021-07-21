@@ -3,21 +3,7 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="C:\Users\PremierSoft\Documents\AndroidStudio\DeviceExplorer\xiaomi-mi_9_se-64da4c99\data\data\com.example.bank_account_app\cache\0.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="C:\Users\PremierSoft\Documents\AndroidStudio\DeviceExplorer\xiaomi-mi_9_se-64da4c99\data\data\com.example.bank_account_app\cache\accounts.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="C:\Users\PremierSoft\Documents\AndroidStudio\DeviceExplorer\xiaomi-mi_9_se-64da4c99\data\data\com.example.bank_account_app\cache\menu.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".activities.BankTransferFragment">
+    tools:context=".activity.BankTransferFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.bank_account_app.activities
+package com.example.bank_account_app.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,15 +9,15 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentCreateAccBinding
-import com.example.bank_account_app.utils.Utils
-import com.example.bank_account_app.utils.Utils.accountFinder
-import com.example.bank_account_app.utils.Utils.toSHA256
-import com.example.bank_account_app.utils.Utils.updatedID
 import com.example.bank_account_app.model.CurrentAccount
 import com.example.bank_account_app.model.SavingsAccount
-import com.example.bank_account_app.utils.AccountDao
-import com.example.bank_account_app.utils.onChange
-import com.example.bank_account_app.utils.toast
+import com.example.bank_account_app.util.AccountDao
+import com.example.bank_account_app.util.AccountManager
+import com.example.bank_account_app.util.AccountManager.accountFinder
+import com.example.bank_account_app.util.AccountManager.toSHA256
+import com.example.bank_account_app.util.AccountManager.updatedID
+import com.example.bank_account_app.util.onChange
+import com.example.bank_account_app.util.toast
 
 class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
 
@@ -50,13 +50,13 @@ class CreateAccFragment : Fragment(R.layout.fragment_create_acc) {
                 if (accountFinder(user, radioCurrentAcc.isChecked)==null) {
                     if (radioCurrentAcc.isChecked) {
                         val user =
-                            CurrentAccount(updatedID(), user, pass, Utils.oppeningDate(), bal)
-                        Utils.accountsList.add(user)
+                            CurrentAccount(updatedID(), user, pass, AccountManager.oppeningDate(), bal)
+                        AccountManager.accountsList.add(user)
                         AccountDao.writeUser(user)
                     } else {
                         val user =
-                            SavingsAccount(updatedID(), user, pass, Utils.oppeningDate(), bal)
-                        Utils.accountsList.add(user)
+                            SavingsAccount(updatedID(), user, pass, AccountManager.oppeningDate(), bal)
+                        AccountManager.accountsList.add(user)
                         AccountDao.writeUser(user)
                     }
                     navController.popBackStack()

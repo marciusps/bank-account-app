@@ -9,17 +9,17 @@
         android:roundIcon="@mipmap/ic_new_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bankaccountapp"
-        android:name=".utils.MainApplication">
+        android:name=".util.MainApplication">
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".model.activities.HomeFragment"/>
-        <activity android:name=".activities.CreateAccFragment"/>
-        <activity android:name=".activities.BankTransitionFragment"/>
+        <activity android:name=".activity.CreateAccFragment"/>
+        <activity android:name=".activity.BankTransitionFragment"/>
     </application>
 
 </manifest>

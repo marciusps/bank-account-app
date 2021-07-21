@@ -1,4 +1,4 @@
-package com.example.bank_account_app.activities
+package com.example.bank_account_app.activity
 
 import android.os.Build
 import android.os.Bundle

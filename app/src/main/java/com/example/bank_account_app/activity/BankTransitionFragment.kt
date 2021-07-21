@@ -1,4 +1,4 @@
-package com.example.bank_account_app.activities
+package com.example.bank_account_app.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.bank_account_app.R
 import com.example.bank_account_app.databinding.FragmentBankTransitionBinding
-import com.example.bank_account_app.utils.*
+import com.example.bank_account_app.util.*
 
 class BankTransitionFragment : Fragment() {
 
@@ -36,8 +36,8 @@ class BankTransitionFragment : Fragment() {
         with(binding) {
             etTransitionValue.onChange(etTransitionValue)
 
-            val user = Utils.findUser(SharedPreferencesLogin.getLogin())
-            balance.text = user?.accountBalance?.let { Utils.coinToMoney(it) }
+            val user = AccountManager.findUser(SharedPreferencesLogin.getLogin())
+            balance.text = user?.accountBalance?.let { AccountManager.coinToMoney(it) }
 
             when (args.transition) {
                 getString(R.string.deposit) -> {
@@ -47,8 +47,8 @@ class BankTransitionFragment : Fragment() {
                             val transition =
                                 etTransitionValue.text.filter { it.isDigit() }.toString().toLong()
                             user?.deposit(transition)
-                            val statement = "Depósito;${user?.ownersName};${Utils.coinToMoney(transition)};${Utils.oppeningDate()}"
-                            Utils.statementsList.add(statement)
+                            val statement = "Depósito;${user?.ownersName};${AccountManager.coinToMoney(transition)};${AccountManager.oppeningDate()}"
+                            AccountManager.statementsList.add(statement)
                             user?.accountID?.let { it1 -> AccountDao.writeStatement(it1, statement) }
                             AccountDao.writeFile()
                             navController.popBackStack()
@@ -65,8 +65,8 @@ class BankTransitionFragment : Fragment() {
                                 etTransitionValue.text.filter { it.isDigit() }.toString().toLong()
                             if (user?.accountBalance ?: 0 - transition >= 0) {
                                 user?.withdraw(transition)
-                                val statement = "Saque;${user?.ownersName};${Utils.coinToMoney(transition)};${Utils.oppeningDate()}"
-                                Utils.statementsList.add(statement)
+                                val statement = "Saque;${user?.ownersName};${AccountManager.coinToMoney(transition)};${AccountManager.oppeningDate()}"
+                                AccountManager.statementsList.add(statement)
                                 user?.accountID?.let { it1 -> AccountDao.writeStatement(it1, statement) }
                                 AccountDao.writeFile()
                                 navController.popBackStack()

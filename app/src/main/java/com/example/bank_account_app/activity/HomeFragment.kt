@@ -1,26 +1,23 @@
-package com.example.bank_account_app.activities
+package com.example.bank_account_app.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bank_account_app.R
-import com.example.bank_account_app.adapters.HomeAdapter
+import com.example.bank_account_app.adapter.HomeAdapter
 import com.example.bank_account_app.databinding.FragmentHomeBinding
-import com.example.bank_account_app.model.CurrentAccount
-import com.example.bank_account_app.utils.AccountDao
-import com.example.bank_account_app.utils.Utils
-import com.example.bank_account_app.utils.Utils.coinToMoney
-import com.example.bank_account_app.utils.Utils.findUser
-import com.example.bank_account_app.utils.SharedPreferencesLogin
-import com.example.bank_account_app.utils.toast
+import com.example.bank_account_app.util.AccountDao
+import com.example.bank_account_app.util.AccountManager
+import com.example.bank_account_app.util.AccountManager.coinToMoney
+import com.example.bank_account_app.util.AccountManager.findUser
+import com.example.bank_account_app.util.SharedPreferencesLogin
+import com.example.bank_account_app.util.toast
 import kotlinx.coroutines.*
 
 class HomeFragment : Fragment(), CoroutineScope {
@@ -28,9 +25,7 @@ class HomeFragment : Fragment(), CoroutineScope {
     private lateinit var binding: FragmentHomeBinding
 
     //private val tag = "BankAccount"
-
     private val parentJob = Job()
-
     override val coroutineContext = parentJob + Dispatchers.Main
 
     private val navController: NavController by lazy {
@@ -58,7 +53,7 @@ class HomeFragment : Fragment(), CoroutineScope {
             AccountDao.readFile() //for non logout
 
             val recyclerViewList: RecyclerView = binding.homeRecycler
-            val homeAdapter = HomeAdapter(Utils.menuList) {
+            val homeAdapter = HomeAdapter(AccountManager.menuList) {
                 when (it) {
                     "deposit" ->
                         navController.navigate(
@@ -76,7 +71,7 @@ class HomeFragment : Fragment(), CoroutineScope {
                     "statement" ->
                         navController.navigate(HomeFragmentDirections.actionHomeFragmentToStatementFragment())
 
-                    "coroutines" -> {
+                    "+10k" -> {
                         launch(Dispatchers.IO) {
                             val result = async { AccountDao.daleContas() }
                             withContext(Dispatchers.Main) {

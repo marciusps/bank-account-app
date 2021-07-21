@@ -1,4 +1,4 @@
-package com.example.bank_account_app.utils
+package com.example.bank_account_app.util
 
 import com.example.bank_account_app.model.Account
 import com.example.bank_account_app.model.CurrentAccount
@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-object Utils {
+object AccountManager {
     var accountsList: ArrayList<Account> = ArrayList()
     var statementsList: ArrayList<String> = ArrayList()
     var menuList: ArrayList<String> = ArrayList()

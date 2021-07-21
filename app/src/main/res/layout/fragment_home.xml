@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".activities.HomeFragment">
+    tools:context=".activity.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -71,6 +71,6 @@
             android:orientation="vertical"
             android:paddingVertical="20dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:context=".adapters.HomeAdapter"/>
+            tools:context=".adapter.HomeAdapter"/>
     </LinearLayout>
 </FrameLayout>

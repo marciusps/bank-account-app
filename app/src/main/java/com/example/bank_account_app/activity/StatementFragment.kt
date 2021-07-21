@@ -1,4 +1,4 @@
-package com.example.bank_account_app.activities
+package com.example.bank_account_app.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bank_account_app.adapters.StatementAdapter
+import com.example.bank_account_app.adapter.StatementAdapter
 import com.example.bank_account_app.databinding.FragmentStatementBinding
-import com.example.bank_account_app.utils.Utils
+import com.example.bank_account_app.util.AccountManager
 
 class StatementFragment : Fragment() {
 
@@ -30,7 +30,7 @@ class StatementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        list = Utils.statementsList
+        list = AccountManager.statementsList
 
         val recyclerViewList: RecyclerView = binding.statementFragment
         val customAdapter = StatementAdapter(list)

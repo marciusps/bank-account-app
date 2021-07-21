@@ -1,10 +1,10 @@
-package com.example.bank_account_app.utils
+package com.example.bank_account_app.util
 
 import com.example.bank_account_app.R
 import com.example.bank_account_app.model.Account
 import com.example.bank_account_app.model.CurrentAccount
 import com.example.bank_account_app.model.SavingsAccount
-import com.example.bank_account_app.utils.MainApplication.Companion.applicationContext
+import com.example.bank_account_app.util.MainApplication.Companion.applicationContext
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
@@ -16,11 +16,11 @@ object AccountDao {
 
     fun readFile(): ArrayList<Account> {
 
-        Utils.accountsList = ArrayList()
+        AccountManager.accountsList = ArrayList()
         if (!File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").exists())
             File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").createNewFile()
 
-        return Utils.accountsList.also {
+        return AccountManager.accountsList.also {
             val bufferedReader =
                 BufferedReader(FileReader(applicationContext().cacheDir.absolutePath + "/${accounts}.csv"))
             var row: List<String>
@@ -28,7 +28,7 @@ object AccountDao {
                 row = bufferedReader.readLine().split(";")
                 if (row[5] == applicationContext().getString(R.string.current_acc)) {
                     //accountID, ownersName, password, oppeningDate, accountBalance
-                    Utils.accountsList.add(
+                    AccountManager.accountsList.add(
                         CurrentAccount(
                             row[0].toInt(),
                             row[1],
@@ -38,7 +38,7 @@ object AccountDao {
                         )
                     )
                 } else {
-                    Utils.accountsList.add(
+                    AccountManager.accountsList.add(
                         SavingsAccount(
                             row[0].toInt(),
                             row[1],
@@ -55,30 +55,30 @@ object AccountDao {
     fun daleContas(): String {
         for (i in 1..10000) {
             if (i % 2 == 0) {
-                Utils.accountsList.add(
+                AccountManager.accountsList.add(
                     CurrentAccount(
-                        Utils.updatedID(), "${Utils.updatedID()}", "${Utils.updatedID()}",
-                        Utils.oppeningDate(), (100L..10000L).random()
+                        AccountManager.updatedID(), "${AccountManager.updatedID()}", "${AccountManager.updatedID()}",
+                        AccountManager.oppeningDate(), (100L..10000L).random()
                     )
                 )
             } else
-                Utils.accountsList.add(
+                AccountManager.accountsList.add(
                     SavingsAccount(
-                        Utils.updatedID(), "${Utils.updatedID()}", "${Utils.updatedID()}",
-                        Utils.oppeningDate(), (100L..10000L).random()
+                        AccountManager.updatedID(), "${AccountManager.updatedID()}", "${AccountManager.updatedID()}",
+                        AccountManager.oppeningDate(), (100L..10000L).random()
                     )
                 )
 
         }
         writeFile()
-        Utils.coroutine = true
+        AccountManager.coroutine = true
         return "generated accounts"
     }
 
     fun writeFile() {
         File(applicationContext().cacheDir.absolutePath + "/${accounts}.csv").bufferedWriter()
             .use { out ->
-                Utils.accountsList.forEach {
+                AccountManager.accountsList.forEach {
                     if (it is CurrentAccount) {
                         out.write(
                             "${it.accountID};${it.ownersName};${it.password};${it.oppeningDate};${it.accountBalance};${
@@ -125,8 +125,8 @@ object AccountDao {
     }
 
     fun readStatements(id: Int): ArrayList<String> {
-        Utils.statementsList = ArrayList()
-        return Utils.statementsList.also {
+        AccountManager.statementsList = ArrayList()
+        return AccountManager.statementsList.also {
             if (!File(applicationContext().cacheDir.absolutePath + "/${id}.csv").exists()) {
                 File(applicationContext().cacheDir.absolutePath + "/${id}.csv").createNewFile()
             }
@@ -135,7 +135,7 @@ object AccountDao {
             var row: String
             while (bufferedReader.ready()) {
                 row = bufferedReader.readLine()
-                Utils.statementsList.add(row)
+                AccountManager.statementsList.add(row)
             }
         }
     }
@@ -150,31 +150,7 @@ object AccountDao {
             }
     }
 
-    fun readMenu(): ArrayList<String> {
-        Utils.menuList = ArrayList()
-        return Utils.menuList.also {
-            if (!File(applicationContext().cacheDir.absolutePath + "/menu.csv").exists()) {
-                File(applicationContext().cacheDir.absolutePath + "/menu.csv").createNewFile()
-            }
-            val bufferedReader =
-                BufferedReader(FileReader(applicationContext().cacheDir.absolutePath + "/menu.csv"))
-            var row: String
-            while (bufferedReader.ready()) {
-                row = bufferedReader.readLine()
-                Utils.menuList.add(row)
-            }
-        }
-    }
-
-    fun writeMenu() {
-        FileOutputStream(
-            applicationContext().cacheDir.absolutePath + "/menu.csv",
-            true
-        ).bufferedWriter()
-            .use { out ->
-                Utils.menuList.forEach {
-                    out.write("${it}\n")
-                }
-            }
+    fun fillMenu() {
+        AccountManager.menuList = arrayListOf("deposit", "withdraw", "transfer", "statement", "+10k")
     }
 }

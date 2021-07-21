@@ -1,4 +1,4 @@
-package com.example.bank_account_app.utils
+package com.example.bank_account_app.util
 
 import android.content.Context
 import android.content.SharedPreferences

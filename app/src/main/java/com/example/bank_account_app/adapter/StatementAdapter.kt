@@ -1,4 +1,4 @@
-package com.example.bank_account_app.adapters
+package com.example.bank_account_app.adapter
 
 import android.view.LayoutInflater
 import android.view.View
